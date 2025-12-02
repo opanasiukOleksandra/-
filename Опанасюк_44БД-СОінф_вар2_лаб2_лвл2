@@ -1,0 +1,73 @@
+def create_matrix():
+    while True:
+        try:
+            numbers = list(map(int, input("Введіть цілі числа через пробіл: ").split()))
+            
+            if len(numbers) < 4:
+                print("Мінімум 4 числа!")
+                continue
+                
+            print("Виберіть розміри матриці (рядки стовпці):")
+            print("1. 2x2")
+            print("2. 3x3") 
+            print("3. 4x4")
+            print("4. Ввести власні розміри")
+            
+            choice = input("Ваш вибір (1-4): ")
+            
+            if choice == '1':
+                rows, cols = 2, 2
+            elif choice == '2':
+                rows, cols = 3, 3
+            elif choice == '3':
+                rows, cols = 4, 4
+            elif choice == '4':
+                rows = int(input("Рядки: "))
+                cols = int(input("Стовпці: "))
+            else:
+                print("Невірний вибір!")
+                continue
+            
+            if rows * cols > len(numbers):
+                print(f"Потрібно {rows*cols} чисел, а у вас {len(numbers)}")
+                continue
+            
+            matrix = []
+            for i in range(rows):
+                start = i * cols
+                end = start + cols
+                row = numbers[start:end]
+                matrix.append(row)
+            
+            return matrix
+            
+        except ValueError:
+            print("Помилка введення!")
+
+def check_symmetry(matrix):
+    n = len(matrix)
+    
+    for i in range(n // 2):
+        if matrix[i] != matrix[n - 1 - i]:
+            return False
+    
+    return True
+
+def main():
+    print("Перевірка горизонтальної симетрії матриці")
+    print("-" * 40)
+    
+    matrix = create_matrix()
+    
+    print("\nОтримана матриця:")
+    for row in matrix:
+        print(row)
+    
+    print("\nРезультат перевірки:")
+    if check_symmetry(matrix):
+        print("Матриця має горизонтальну вісь симетрії")
+    else:
+        print("Матриця не має горизонтальної осі симетрії")
+
+if __name__ == "__main__":
+    main()
