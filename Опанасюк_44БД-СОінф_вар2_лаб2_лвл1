@@ -1,0 +1,44 @@
+def create_list():
+    print("Створення списку цілих чисел (не менше 5 чисел)")
+    print("Введіть числа через пробіл (наприклад: 3 -5 7 -2 1 4):")
+    
+    while True:
+        try:
+            numbers = list(map(int, input().split()))
+            if len(numbers) >= 5:
+                return numbers
+            else:
+                print("Потрібно ввести не менше 5 чисел. Спробуйте ще раз:")
+        except ValueError:
+            print("Помилка: введіть коректні цілі числа. Спробуйте ще раз:")
+
+def sum_of_cubes_of_largest(numbers):
+    sorted_numbers = sorted(numbers, reverse=True)
+    
+    top_five = sorted_numbers[:5]
+    
+    sum_cubes = sum(x**3 for x in top_five)
+    
+    print(f"\nСписок чисел: {numbers}")
+    print(f"5 найбільших елементів: {top_five}")
+    print(f"Куби 5 найбільших елементів:")
+    for num in top_five:
+        print(f"  {num}³ = {num**3}")
+    print(f"Сума кубів 5 найбільших елементів: {sum_cubes}")
+    
+    return sum_cubes
+
+def main():
+    print("=" * 50)
+    print("Лабораторна робота 2. Варіант 2")
+    print("=" * 50)
+    print("Завдання: Обчислити суму кубів 5 найбільших елементів списку")
+    print("=" * 50)
+    
+    numbers = create_list()
+    result = sum_of_cubes_of_largest(numbers)
+    
+    return result
+
+if __name__ == "__main__":
+    main()
