@@ -1,0 +1,93 @@
+import random
+
+class SpaceGameSimple:
+    def __init__(self):
+        self.width = 15
+        self.height = 15
+        self.ship = [0, 0]
+        self.planet = None
+        self.obstacles = []
+        self.setup()
+    
+    def setup(self):
+        self.planet = [random.randint(5, 10), random.randint(5, 10), 4]
+        
+        for _ in range(3):
+            x = random.randint(0, 10)
+            y = random.randint(0, 10)
+            size = random.randint(1, 2)
+            
+            while abs(x - self.planet[0]) < 5 and abs(y - self.planet[1]) < 5:
+                x = random.randint(0, 10)
+                y = random.randint(0, 10)
+            
+            self.obstacles.append([x, y, size])
+        
+        self.ship = [random.randint(0, 3), random.randint(0, 3)]
+    
+    def show(self):
+        grid = [['.' for _ in range(self.width)] for _ in range(self.height)]
+        
+        for obs in self.obstacles:
+            x, y, s = obs
+            for i in range(s):
+                for j in range(s):
+                    if y+j < self.height and x+i < self.width:
+                        grid[y+j][x+i] = '#'
+        
+        px, py, ps = self.planet
+        for i in range(ps):
+            for j in range(ps):
+                if py+j < self.height and px+i < self.width:
+                    if grid[py+j][px+i] == '.':
+                        grid[py+j][px+i] = 'O'
+        
+        sx, sy = self.ship
+        if grid[sy][sx] == '.':
+            grid[sy][sx] = 'X'
+        
+        print("\n" + "-" * (self.width * 2))
+        for row in grid:
+            print("|" + " ".join(row) + "|")
+        print("-" * (self.width * 2))
+    
+    def check(self):
+        sx, sy = self.ship
+        px, py, ps = self.planet
+        
+        if px-1 <= sx <= px+ps and py-1 <= sy <= py+ps:
+            return "win"
+        
+        for ox, oy, os in self.obstacles:
+            if ox <= sx < ox+os and oy <= sy < oy+os:
+                return "crash"
+        
+        return "play"
+    
+    def play(self):
+        print("Гра: Приземліть корабель (X) на планету (O)")
+        print("Уникайте перешкод (#)")
+        
+        while True:
+            self.show()
+            result = self.check()
+            
+            if result == "win":
+                print("Ви виграли!")
+                break
+            elif result == "crash":
+                print("Корабель розбився!")
+                break
+            
+            try:
+                x, y = map(int, input("X Y: ").split())
+                if 0 <= x < self.width and 0 <= y < self.height:
+                    self.ship = [x, y]
+                else:
+                    print("Поза межами!")
+            except:
+                print("Невірний ввід")
+
+if __name__ == "__main__":
+    game = SpaceGameSimple()
+    game.play()
