@@ -1,0 +1,29 @@
+import random
+
+def simple_game():
+    secret = random.randint(1, 100)
+    max_attempts = int(input("Кількість спроб: "))
+    
+    asked = []
+    
+    for i in range(max_attempts):
+        inp = input(f"Спроба {i+1}: ")
+        
+        if inp.upper() == "HELP":
+            print("Твої числа:", asked)
+            if secret in asked:
+                print("Правильна відповідь серед них")
+            continue
+        
+        nums = [int(x) for x in inp.replace(" ", "").split(",")]
+        asked.extend([x for x in nums if x not in asked])
+        
+        if secret in nums:
+            print(f"Yes! Це {secret}")
+            break
+        else:
+            print("No")
+    else:
+        print(f"Гра скінчилась. Число: {secret}")
+
+simple_game()
