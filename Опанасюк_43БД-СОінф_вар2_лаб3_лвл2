@@ -1,0 +1,16 @@
+def count_words(text):
+    words = 0
+    in_word = False
+    
+    for i in range(len(text)):
+        if text[i] != ' ' and not in_word:
+            words += 1
+            in_word = True
+        elif text[i] == ' ':
+            in_word = False
+    
+    return words
+
+text = input("Введіть рядок: ")
+result = count_words(text)
+print(f"Кількість слів: {result}")
