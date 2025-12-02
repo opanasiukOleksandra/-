@@ -1,0 +1,20 @@
+def generate_subsets(chars):
+    chars = list(chars)
+    n = len(chars)
+    subsets = []
+    
+    for mask in range(1 << n):  # 2^n можливостей
+        subset = []
+        for i in range(n):
+            if mask & (1 << i):  # перевірка біта
+                subset.append(chars[i])
+        subsets.append(subset)
+    
+    return subsets
+
+chars = input("Введіть символи через пробіл: ").split()
+result = generate_subsets(chars)
+
+print(f"Усі підмножини ({len(result)}):")
+for subset in result:
+    print(subset)
